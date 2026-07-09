@@ -7,4 +7,4 @@ def get_connection():
         password="arya2008",
         database="hospital_management"
     )
-print("Database connection established successfully.")
+# print("Database connection established successfully.")

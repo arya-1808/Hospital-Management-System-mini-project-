@@ -18,7 +18,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS patient (
                name VARCHAR(255) NOT NULL, 
                age INT NOT NULL,
                gender VARCHAR(10),
-               blood_group VARCHAR(10)
+               
                )''')
 # print("Patient table created successfully.")
 
