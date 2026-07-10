@@ -8,7 +8,7 @@ def add_bill():
     print("\n========== ADD BILL ==========")
 
     patient_id = input("Enter Patient ID: ")
-    amount = input("Enter Bill Amount: ")
+    amount = float(input("Enter Bill Amount: "))
     bill_date = input("Enter Bill Date (YYYY-MM-DD): ")
 
     # Check Patient
