@@ -132,5 +132,3 @@ def medicine_menu():
             case _:
                 print("Invalid choice! Please try again.")
 
-
-medicine_menu()
