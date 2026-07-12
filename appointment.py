@@ -173,4 +173,4 @@ def appointment_menu():
         else:
             print("Invalid Choice")
 
-appointment_menu()
+
