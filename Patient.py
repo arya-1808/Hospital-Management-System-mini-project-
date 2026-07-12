@@ -71,7 +71,7 @@ def update_patient():
             """UPDATE patient
             SET name=%s,
                 age=%s,
-                gender=%s,
+                gender=%s
                 
             WHERE patient_id=%s""",
             (name, age, gender, pid)
