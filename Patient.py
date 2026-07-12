@@ -10,11 +10,11 @@ def add_patient():
     name = input("Enter Patient Name: ")
     age = int(input("Enter Age: "))
     gender = input("Enter Gender(M/F): ")
-    blood_group = input("Enter Blood Group: ")
+    
 
     cursor.execute(
-        "INSERT INTO patient(name, age, gender, blood_group) VALUES(%s,%s,%s,%s)",
-        (name, age, gender, blood_group)
+        "INSERT INTO patient(name, age, gender) VALUES(%s,%s,%s)",
+        (name, age, gender)
     )
 
     conn.commit()
@@ -32,7 +32,7 @@ def view_patients():
         print("-----------------------------------------------")
 
         for row in records:
-            print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t{row[3]}\t{row[4]}")
+            print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t{row[3]}")
 
     else:
         print("No patient records found.")
@@ -50,7 +50,7 @@ def search_patient():
         print(f"Name         : {patient[1]}")
         print(f"Age          : {patient[2]}")
         print(f"Gender       : {patient[3]}")
-        print(f"Blood Group  : {patient[4]}")
+    
     else:
         print("Patient not found.")
 
@@ -65,16 +65,16 @@ def update_patient():
         name = input("Enter New Name: ")
         age = input("Enter New Age: ")
         gender = input("Enter New Gender: ")
-        blood_group = input("Enter New Blood Group: ")
+        
 
         cursor.execute(
             """UPDATE patient
             SET name=%s,
                 age=%s,
                 gender=%s,
-                blood_group=%s
+                
             WHERE patient_id=%s""",
-            (name, age, gender, blood_group, pid)
+            (name, age, gender, pid)
         )
 
         conn.commit()
@@ -133,4 +133,3 @@ def patient_menu():
                 break
             case _:
                 print("Invalid choice! Please try again.")
-patient_menu()
