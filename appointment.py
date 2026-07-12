@@ -48,9 +48,9 @@ def view_appointments():
 
     if records:
          print("\n========== APPOINTMENT RECORDS ==========")
-        print("-------------------------------------------------------------------------------")
-        print("ID\tPatient ID\tDoctor ID\tDate\t\tTime\t\tStatus")
-        print("-------------------------------------------------------------------------------")
+         print("-------------------------------------------------------------------------------")
+         print("ID\tPatient ID\tDoctor ID\tDate\t\tTime\t\tStatus")
+         print("-------------------------------------------------------------------------------")
         for row in records:
             print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t\t{row[3]}\t{row[4]}\t{row[5]}")
     
