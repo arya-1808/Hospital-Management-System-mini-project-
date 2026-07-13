@@ -40,9 +40,9 @@ def view_doctors():
 
 
 def search_doctor():
-    did = input("\nEnter Doctor ID: ")
+    did = input("\nEnter Doctor ID or Doctor Name: ")
 
-    cursor.execute("SELECT * FROM doctor WHERE doctor_id=%s", (did,))
+    cursor.execute("SELECT * FROM doctor WHERE doctor_id=%s OR name=%s", (did, did))
     doctor = cursor.fetchone()
 
     if doctor:
@@ -83,7 +83,7 @@ def update_doctor():
 
 
 def delete_doctor():
-    did = input("\nEnter Doctor ID: ")
+    did = input("\nEnter Doctor ID : ")
 
     cursor.execute("SELECT * FROM doctor WHERE doctor_id=%s", (did,))
     doctor = cursor.fetchone()
@@ -105,6 +105,44 @@ def delete_doctor():
 
     else:
         print("\nDoctor not found.")
+def doctor_dashboard():
+    print("\n========== DOCTOR DASHBOARD ==========")
+
+    did = input("Enter Doctor ID or Name: ")
+
+    cursor.execute(
+        "SELECT * FROM doctor WHERE doctor_id=%s OR name=%s",
+        (did,did)
+    )
+
+    doctor = cursor.fetchone()
+
+    if doctor:
+        print("\n========== DOCTOR DETAILS ==========")
+        print("\nDoctor ID       :", doctor[0])
+        print("Doctor Name     :", doctor[1])
+        print("Specialization  :", doctor[2])
+        print("Experience      :", doctor[3], "Years")
+
+        print("\n===================================")
+        cursor.execute(
+            "SELECT * FROM visitor WHERE doctor_id=%s",
+            (doctor[0],)
+        )
+        visits = cursor.fetchall()
+        if visits:
+            print("\n========== VISITORS RECORDS ==========")
+            for visit in visits:
+                print(f"Visit ID      : {visit[0]}")
+                print(f"Patient ID    : {visit[1]}")
+                print(f"Visit Date    : {visit[2]}")
+                print(f"Reason        : {visit[3]}")
+                print("------------------------------------------------------")
+        else:
+            print("\nNo visit records found for this doctor.")
+
+    else:
+        print("\nDoctor not found!")
 
 
 def doctor_menu():
@@ -117,7 +155,8 @@ def doctor_menu():
         print("3. Search Doctor")
         print("4. Update Doctor")
         print("5. Delete Doctor")
-        print("6. Back to Main Menu")
+        print("6. Doctor Dashboard")
+        print("7. Return to Main Menu")
         print("===================================")
 
         choice = input("Enter your choice: ")
@@ -139,6 +178,9 @@ def doctor_menu():
                 delete_doctor()
 
             case "6":
+                doctor_dashboard()
+
+            case 7:
                 print("\nReturning to Main Menu...")
                 break
 
