@@ -22,6 +22,18 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS patient (
                )''')
 # print("Patient table created successfully.")
 
+              
+        
+cursor.execute('''CREATE TABLE IF NOT EXISTS visitor(
+                visit_id INT AUTO_INCREMENT PRIMARY KEY,
+                patient_id INT,
+                visit_date DATE,
+                reason VARCHAR(200),
+                doctor_id INT,
+                FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+               
+)''')
+
 # doctor table
 cursor.execute('''CREATE TABLE IF NOT EXISTS doctor (
                doctor_id INT AUTO_INCREMENT PRIMARY KEY, 
