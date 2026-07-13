@@ -8,26 +8,56 @@ def add_bill():
     print("\n========== ADD BILL ==========")
 
     patient_id = input("Enter Patient ID: ")
-    amount = float(input("Enter Bill Amount: "))
+
+    # Charges
+    consultation_fee = float(input("Enter Consultation Fee: "))
+    medicine_charge = float(input("Enter Medicine Charge: "))
+    test_charge = float(input("Enter Test Charge: "))
+    discount = float(input("Enter Discount: "))
+
+    total_amount = consultation_fee + medicine_charge + test_charge - discount
+
+    payment_status = input("Enter Payment Status (Paid/Pending): ")
     bill_date = input("Enter Bill Date (YYYY-MM-DD): ")
 
+
     # Check Patient
-    cursor.execute("SELECT * FROM patient WHERE patient_id=%s", (patient_id,))
+    cursor.execute(
+        "SELECT * FROM patient WHERE patient_id=%s",
+        (patient_id,)
+    )
+
     patient = cursor.fetchone()
+
 
     if patient:
 
         cursor.execute(
-            "INSERT INTO bill(patient_id, amount, bill_date) VALUES(%s,%s,%s)",
-            (patient_id, amount, bill_date)
+            """
+            INSERT INTO bill
+            (patient_id, consultation_fee, medicine_charge, test_charge,
+             discount, amount, payment_status, bill_date)
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s)
+            """,
+            (
+                patient_id,
+                consultation_fee,
+                medicine_charge,
+                test_charge,
+                discount,
+                total_amount,
+                payment_status,
+                bill_date
+            )
         )
 
         conn.commit()
+
         print("Bill generated successfully!")
+        print("Total Amount:", total_amount)
 
     else:
         print("Patient not found.")
-
 
 def view_bills():
     cursor.execute("SELECT * FROM bill")
@@ -36,14 +66,14 @@ def view_bills():
     if records:
 
         print("\n============== BILL RECORDS ==============")
-        print("------------------------------------------------")
-        print("Bill ID\tPatient ID\tAmount\t\tBill Date")
-        print("------------------------------------------------")
+        print("-----------------------------------------------------------------------------------------------------------------------------")
+        print("Bill ID\tPatient ID\tAmount\t\tBill Date Consultation Fee\tMedicine Charge\tTest Charge\tDiscount\tPayment Status")
+        print("-----------------------------------------------------------------------------------------------------------------------------")
 
         for row in records:
-            print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t\t{row[3]}")
+            print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t\t{row[3]}\t{row[4]}\t{row[5]}\t{row[6]}\t{row[7]}\t{row[8]}")
 
-        print("------------------------------------------------")
+        print("-----------------------------------------------------------------------------------------------------------------------------")
 
     else:
         print("No bill records found.")
@@ -62,6 +92,11 @@ def search_bill():
         print(f"Patient ID  : {bill[1]}")
         print(f"Amount      : {bill[2]}")
         print(f"Bill Date   : {bill[3]}")
+        print(f"Consultation Fee  : {bill[4]}")
+        print(f"Medicine Charge   : {bill[5]}")
+        print(f"Test Charge       : {bill[6]}")
+        print(f"Discount          : {bill[7]}")
+        print(f"Payment Status    : {bill[8]}")
 
     else:
         print("Bill not found.")
@@ -77,13 +112,25 @@ def update_bill():
 
         amount = input("Enter New Amount: ")
         bill_date = input("Enter New Bill Date (YYYY-MM-DD): ")
+        consultation_fee = input("Enter New Consultation Fee: ")
+        medicine_charge = input("Enter New Medicine Charge: ")
+        test_charge = input("Enter New Test Charge: ")
+        discount = input("Enter New Discount: ")
+        payment_status = input("Enter New Payment Status: ")
 
         cursor.execute(
             """UPDATE bill
                SET amount=%s,
                    bill_date=%s
+                   consultation_fee=%s,
+                   medicine_charge=%s,      
+              test_charge=%s,
+                discount=%s,
+                     payment_status=%s
                WHERE bill_id=%s""",
-            (amount, bill_date, bill_id)
+
+            (amount, bill_date, consultation_fee, medicine_charge, test_charge, discount, payment_status, bill_id)
+
         )
 
         conn.commit()
